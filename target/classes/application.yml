@@ -1,9 +1,0 @@
-server:
-  port: 8080
-spring:
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
-  devtools:
-    livereload:
-      port: 34521
