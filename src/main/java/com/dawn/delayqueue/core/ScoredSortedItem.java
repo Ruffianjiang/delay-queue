@@ -14,10 +14,10 @@ public class ScoredSortedItem {
     /**
      * 延迟任务的唯一标识
      */
-    private long delayQueueJodId;
+    private long delayQueueJobId;
 
-    public ScoredSortedItem(long delayQueueJodId, long delayTime) {
-        this.delayQueueJodId = delayQueueJodId;
+    public ScoredSortedItem(long delayQueueJobId, long delayTime) {
+        this.delayQueueJobId = delayQueueJobId;
         this.delayTime = delayTime;
     }
 
@@ -33,19 +33,19 @@ public class ScoredSortedItem {
         this.delayTime = delayTime;
     }
 
-    public long getDelayQueueJodId() {
-        return delayQueueJodId;
+    public long getDelayQueueJobId() {
+        return delayQueueJobId;
     }
 
-    public void setDelayQueueJodId(long delayQueueJodId) {
-        this.delayQueueJodId = delayQueueJodId;
+    public void setDelayQueueJobId(long delayQueueJobId) {
+        this.delayQueueJobId = delayQueueJobId;
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("ScoredSortedItem{");
         sb.append("delayTime=").append(delayTime);
-        sb.append(", delayQueueJodId=").append(delayQueueJodId);
+        sb.append(", delayQueueJobId=").append(delayQueueJobId);
         sb.append('}');
         return sb.toString();
     }

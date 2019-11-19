@@ -13,30 +13,30 @@ public class DelayQueueJobPool {
     private static final String DELAY_QUEUE_JOB_POOL = "delayQueueJobPool";
 
     /**
-     * 查询 DelayQueueJod
-     * @param delayQueueJodId
+     * 查询 DelayQueueJob
+     * @param delayQueueJobId
      * @return
      */
-    public static DelayQueueJob getDelayQueueJod(long delayQueueJodId) {
+    public static DelayQueueJob getDelayQueueJob(long delayQueueJobId) {
         RMap<Long, DelayQueueJob> rMap = RedissonUtils.getMap(DELAY_QUEUE_JOB_POOL);
-        return rMap.get(delayQueueJodId);
+        return rMap.get(delayQueueJobId);
     }
 
     /**
-     * 添加 DelayQueueJod
+     * 添加 DelayQueueJob
      * @param delayQueueJob
      */
-    public static void addDelayQueueJod(DelayQueueJob delayQueueJob) {
+    public static void addDelayQueueJob(DelayQueueJob delayQueueJob) {
         RMap<Long, DelayQueueJob> rMap = RedissonUtils.getMap(DELAY_QUEUE_JOB_POOL);
         rMap.put(delayQueueJob.getId(), delayQueueJob);
     }
 
     /**
-     * 删除 DelayQueueJod
-     * @param delayQueueJodId
+     * 删除 DelayQueueJob
+     * @param delayQueueJobId
      */
-    public static void deleteDelayQueueJod(long delayQueueJodId) {
+    public static void deleteDelayQueueJob(long delayQueueJobId) {
         RMap<Long, DelayQueueJob> rMap = RedissonUtils.getMap(DELAY_QUEUE_JOB_POOL);
-        rMap.remove(delayQueueJodId);
+        rMap.remove(delayQueueJobId);
     }
 }

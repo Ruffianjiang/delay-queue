@@ -24,14 +24,14 @@ public class RedissonUtils {
 
     static {
         try {
-            Config config = Config.fromYAML(RedissonUtils.class.getClassLoader().getResource("redis.yaml"));
+            Config config = Config.fromYAML(RedissonUtils.class.getClassLoader().getResource("redisson-config.yml"));
             long startTime = System.currentTimeMillis();
             redissonClient = Redisson.create(config);
             long endTime = System.currentTimeMillis();
-            logger.info(" initialization RedissosnClient use {}ms",endTime-startTime);
-            logger.info(" redisconfig:{} ",config.toYAML());
+            logger.info(" initialization RedissonClient use {}ms",endTime-startTime);
+            logger.info(" redisConfig:{} ",config.toYAML());
         }catch (Exception e){
-            logger.error(" initialization RedissosnClient error :",e);
+            logger.error(" initialization RedissonClient error :",e);
         }
 
     }

@@ -20,8 +20,8 @@ public class DelayBucket {
      * @param scoredSortedItem
      */
     public static void addToBucket(String key, ScoredSortedItem scoredSortedItem) {
-        RScoredSortedSet<ScoredSortedItem> scoredSorteSet = RedissonUtils.getScoredSorteSet(key);
-        scoredSorteSet.add(scoredSortedItem.getDelayTime(),scoredSortedItem);
+        RScoredSortedSet<ScoredSortedItem> scoredSortedSet = RedissonUtils.getScoredSorteSet(key);
+        scoredSortedSet.add(scoredSortedItem.getDelayTime(),scoredSortedItem);
     }
 
     /**
@@ -43,7 +43,7 @@ public class DelayBucket {
      * @param scoredSortedItem
      */
     public static void deleteFormBucket(String key, ScoredSortedItem scoredSortedItem) {
-        RScoredSortedSet<ScoredSortedItem> scoredSorteSet = RedissonUtils.getScoredSorteSet(key);
-        scoredSorteSet.remove(scoredSortedItem);
+        RScoredSortedSet<ScoredSortedItem> scoredSortedSet = RedissonUtils.getScoredSorteSet(key);
+        scoredSortedSet.remove(scoredSortedItem);
     }
 }

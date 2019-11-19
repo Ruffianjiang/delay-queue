@@ -44,21 +44,21 @@ public class DelayBucketHandler implements Runnable {
                     continue;
                 }
 
-                DelayQueueJob delayQueueJod = DelayQueueJobPool.getDelayQueueJod(item.getDelayQueueJodId());
+                DelayQueueJob delayQueueJob = DelayQueueJobPool.getDelayQueueJob(item.getDelayQueueJobId());
                 //延迟任务元数据不存在
-                if (delayQueueJod == null) {
+                if (delayQueueJob == null) {
                     DelayBucket.deleteFormBucket(this.delayBucketKey,item);
                     continue;
                 }
 
                 //再次确认延时时间是否到了
-                if (delayQueueJod.getDelayTime() > System.currentTimeMillis()) {
+                if (delayQueueJob.getDelayTime() > System.currentTimeMillis()) {
                     //删除旧的
                     DelayBucket.deleteFormBucket(this.delayBucketKey,item);
                     //重新计算延迟时间
-                    DelayBucket.addToBucket(this.delayBucketKey,new ScoredSortedItem(delayQueueJod.getId(),delayQueueJod.getDelayTime()));
+                    DelayBucket.addToBucket(this.delayBucketKey,new ScoredSortedItem(delayQueueJob.getId(),delayQueueJob.getDelayTime()));
                 } else {
-                    ReadyQueue.pushToReadyQueue(delayQueueJod.getTopic(),delayQueueJod.getId());
+                    ReadyQueue.pushToReadyQueue(delayQueueJob.getTopic(),delayQueueJob.getId());
                     DelayBucket.deleteFormBucket(this.delayBucketKey,item);
                 }
 

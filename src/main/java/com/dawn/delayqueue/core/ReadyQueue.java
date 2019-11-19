@@ -13,11 +13,11 @@ public class ReadyQueue {
     /**
      * 添加jodid到准备队列
      * @param topic
-     * @param delayQueueJodId
+     * @param delayQueueJobId
      */
-    public static void pushToReadyQueue(String topic, long delayQueueJodId) {
+    public static void pushToReadyQueue(String topic, long delayQueueJobId) {
         RBlockingQueue<Long> rBlockingQueue = RedissonUtils.getBlockingQueue(topic);
-        rBlockingQueue.offer(delayQueueJodId);
+        rBlockingQueue.offer(delayQueueJobId);
     }
 
     /**

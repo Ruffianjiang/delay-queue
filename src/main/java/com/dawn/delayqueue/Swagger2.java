@@ -24,17 +24,17 @@ public class Swagger2 {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.yangwenjie.delayqueue"))
+//                .apis(RequestHandlerSelectors.basePackage("com.dawn.delayqueue"))
                 .paths(PathSelectors.any())
                 .build();
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title(" Internet-Queuing restful apis")
+                .title("Delay-Queuing restful apis")
                 .description("延迟消息队列接口文档")
-                 .termsOfServiceUrl("https://github.com/yangwenjie88/delay-queue")
-                .contact("Yang WenJie")
+                 .termsOfServiceUrl("https://github.com/Ruffianjiang/delay-queue")
+                .contact("Ruffian Jiang")
                 .version("1.0")
                 .build();
     }

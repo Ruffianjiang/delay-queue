@@ -1,6 +1,6 @@
 package com.dawn.delayqueue.exception;
 
-import com.yangwenjie.delayqueue.dto.Result;
+import com.dawn.delayqueue.dto.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;

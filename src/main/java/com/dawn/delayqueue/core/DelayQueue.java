@@ -17,11 +17,11 @@ public class DelayQueue {
 
     /**
      * 获取delayBucket key 分开多个，有利于提高效率
-     * @param delayQueueJodId
+     * @param delayQueueJobId
      * @return
      */
-    private static String getDelayBucketKey(long delayQueueJodId) {
-        return DELAY_BUCKET_KEY_PREFIX+ Math.floorMod(delayQueueJodId,DELAY_BUCKET_NUM);
+    private static String getDelayBucketKey(long delayQueueJobId) {
+        return DELAY_BUCKET_KEY_PREFIX+ Math.floorMod(delayQueueJobId,DELAY_BUCKET_NUM);
     }
 
     /**
@@ -29,7 +29,7 @@ public class DelayQueue {
      * @param delayQueueJob
      */
     public static void push(DelayQueueJob delayQueueJob) {
-        DelayQueueJobPool.addDelayQueueJod(delayQueueJob);
+        DelayQueueJobPool.addDelayQueueJob(delayQueueJob);
         ScoredSortedItem item = new ScoredSortedItem(delayQueueJob.getId(), delayQueueJob.getDelayTime());
         DelayBucket.addToBucket(getDelayBucketKey(delayQueueJob.getId()),item);
     }
@@ -40,56 +40,56 @@ public class DelayQueue {
      * @return
      */
     public static DelayQueueJob pop(String topic) {
-        Long delayQueueJodId = ReadyQueue.pollFormReadyQueue(topic);
-        if (delayQueueJodId == null) {
+        Long delayQueueJobId = ReadyQueue.pollFormReadyQueue(topic);
+        if (delayQueueJobId == null) {
             return null;
         } else {
-            DelayQueueJob delayQueueJod = DelayQueueJobPool.getDelayQueueJod(delayQueueJodId);
-            if (delayQueueJod == null) {
+            DelayQueueJob delayQueueJob = DelayQueueJobPool.getDelayQueueJob(delayQueueJobId);
+            if (delayQueueJob == null) {
                 return null;
             } else {
-                long delayTime = delayQueueJod.getDelayTime();
+                long delayTime = delayQueueJob.getDelayTime();
                 //获取消费超时时间，重新放到延迟任务桶中
-                long reDelayTime = System.currentTimeMillis()+delayQueueJod.getTtrTime()*1000L;
-                delayQueueJod.setDelayTime(reDelayTime);
-                DelayQueueJobPool.addDelayQueueJod(delayQueueJod);
-                ScoredSortedItem item = new ScoredSortedItem(delayQueueJod.getId(), reDelayTime);
-                DelayBucket.addToBucket(getDelayBucketKey(delayQueueJod.getId()),item);
+                long reDelayTime = System.currentTimeMillis()+delayQueueJob.getTtrTime()*1000L;
+                delayQueueJob.setDelayTime(reDelayTime);
+                DelayQueueJobPool.addDelayQueueJob(delayQueueJob);
+                ScoredSortedItem item = new ScoredSortedItem(delayQueueJob.getId(), reDelayTime);
+                DelayBucket.addToBucket(getDelayBucketKey(delayQueueJob.getId()),item);
                 //返回的时候设置回
-                delayQueueJod.setDelayTime(delayTime);
-                return delayQueueJod;
+                delayQueueJob.setDelayTime(delayTime);
+                return delayQueueJob;
             }
         }
     }
 
     /**
      * 删除延迟队列任务
-     * @param delayQueueJodId
+     * @param delayQueueJobId
      */
-    public static void delete(long delayQueueJodId) {
-        DelayQueueJobPool.deleteDelayQueueJod(delayQueueJodId);
+    public static void delete(long delayQueueJobId) {
+        DelayQueueJobPool.deleteDelayQueueJob(delayQueueJobId);
     }
 
     /**
      *
-     * @param delayQueueJodId
+     * @param delayQueueJobId
      */
-    public static void finish(long delayQueueJodId) {
-        DelayQueueJob delayQueueJod = DelayQueueJobPool.getDelayQueueJod(delayQueueJodId);
-        if (delayQueueJod == null) {
+    public static void finish(long delayQueueJobId) {
+        DelayQueueJob delayQueueJob = DelayQueueJobPool.getDelayQueueJob(delayQueueJobId);
+        if (delayQueueJob == null) {
             return;
         }
-        DelayQueueJobPool.deleteDelayQueueJod(delayQueueJodId);
-        ScoredSortedItem item = new ScoredSortedItem(delayQueueJod.getId(), delayQueueJod.getDelayTime());
-        DelayBucket.deleteFormBucket(getDelayBucketKey(delayQueueJod.getId()),item);
+        DelayQueueJobPool.deleteDelayQueueJob(delayQueueJobId);
+        ScoredSortedItem item = new ScoredSortedItem(delayQueueJob.getId(), delayQueueJob.getDelayTime());
+        DelayBucket.deleteFormBucket(getDelayBucketKey(delayQueueJob.getId()),item);
     }
 
     /**
      * 查询delay job
-     * @param delayQueueJodId
+     * @param delayQueueJobId
      * @return
      */
-    public static DelayQueueJob get(long delayQueueJodId) {
-        return DelayQueueJobPool.getDelayQueueJod(delayQueueJodId);
+    public static DelayQueueJob get(long delayQueueJobId) {
+        return DelayQueueJobPool.getDelayQueueJob(delayQueueJobId);
     }
 }
