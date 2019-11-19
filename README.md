@@ -1,7 +1,21 @@
 # delay-queue
-redis实现延迟消息队列
+redis实现延迟消息队列 Spring boot
 
-#### 需求背景
+## 修改说明
+基于 spring boot 的重制版，对生产者、消费者进行了修改，实现定时的推送功能
+base on [delay-queue](https://github.com/yangwenjie88/delay-queue)
+
+## todo or defect
+1、分布式消费（未验证）  
+2、任务去重机制  
+3、多线程消费  
+4、相同时间点分组推送  
+5、修改线程为阻塞模式
+6、消费推送异步
+7、延时队列流程监控
+
+
+## 需求背景
 &nbsp;&nbsp;&nbsp;&nbsp;最近在做一个排队取号的系统
 * 在用户预约时间到达前XX分钟发短信通知
 * 在用户预约时间结束时要判断用户是否去取号了，不然就记录为爽约
@@ -12,9 +26,9 @@ redis实现延迟消息队列
 
 经过一番搜索，网上说rabbitmq可以满足延迟执行需求，但是目前系统用了其他消息中间件，所以不打算用。
 
-基于Redis实现的延迟消息队列java版：[delay-queue](https://github.com/yangwenjie88/delay-queue)
+基于Redis实现的延迟消息队列java版：[delay-queue](https://github.com/Ruffianjiang/delay-queue)
 
-#### 整体结构
+## 整体结构
 整个延迟队列由4个部分组成：
 
 1. JobPool用来存放所有Job的元信息。
@@ -24,7 +38,7 @@ redis实现延迟消息队列
 
 ![结构图](https://tech.youzan.com/content/images/2016/03/all-1.png)
 
-#### 消息结构
+## 消息结构
 每个Job必须包含一下几个属性：
 
 1. topic：Job类型。可以理解成具体的业务名称。
@@ -33,7 +47,7 @@ redis实现延迟消息队列
 4. ttr（time-to-run)：Job执行超时时间。单位：秒。主要是为了消息可靠性
 5. message：Job的内容，供消费者做具体的业务处理，以json格式存储。
 
-#### 举例说明一个Job的生命周期
+## 举例说明一个Job的生命周期
 1. 用户预约后，同时往JobPool里put一个job。job结构为：{‘topic':'book’, ‘id':'123456’, ‘delayTime’:1517069375398 ,’ttrTime':60 , ‘message':’XXXXXXX’}
   同时以jobId作为value，delayTime作为score 存到bucket 中，用jodId取模，放到10个bucket中，以提高效率
   
@@ -44,7 +58,7 @@ redis实现延迟消息队列
 3. 消费端轮询对应的topic的ready queue，获取job后做自己的业务逻辑。与此同时，服务端将已经被消费端获取的job按照其设定的TTR，重新计算执行时间，并将其放入bucket。
 消费端处理完业务后向服务端响应finish，服务端根据job id删除对应的元信息。如果消费端在ttr时间内没有响应，则ttr时间后会再收到该消息
 
-#### 后续扩展
+## 后续扩展
 1. 加上超时重发次数
 
 实现思路
@@ -59,5 +73,5 @@ redis实现延迟消息队列
 第7次通知失败, N += 1 => 8, 取出对应的间隔时间15h, 添加一个任务到延迟队列, 同上
 第8次通知失败, N += 1 => 9, 取不到间隔时间, 结束通知
 
-#### 引用说明
+## 引用说明
 参考[有赞延迟队列](https://tech.youzan.com/queuing_delay/)思路设计实现

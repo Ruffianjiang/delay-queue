@@ -1,6 +1,6 @@
 package com.dawn.delayqueue.core;
 
-import com.yangwenjie.delayqueue.utils.RedissonUtils;
+import com.dawn.delayqueue.util.RedissonUtils;
 import org.redisson.api.RBlockingQueue;
 
 /**

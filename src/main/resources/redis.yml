@@ -1,4 +1,3 @@
-
 clusterServersConfig:
   idleConnectionTimeout: 10000
   pingTimeout: 1000
@@ -20,18 +19,18 @@ clusterServersConfig:
   masterConnectionPoolSize: 64
   readMode: "SLAVE"
   nodeAddresses:
-  - "redis://10.13.7.11:7113"
-  - "redis://10.13.7.11:7114"
-  - "redis://10.13.7.11:7115"
-  - "redis://10.13.7.11:7116"
-  - "redis://10.13.7.12:7113"
-  - "redis://10.13.7.12:7114"
-  - "redis://10.13.7.12:7115"
-  - "redis://10.13.7.12:7116"
-  - "redis://10.3.3.209:7113"
-  - "redis://10.3.3.209:7114"
-  - "redis://10.3.3.209:7115"
-  - "redis://10.3.3.209:7116"
+    - "redis://10.13.7.11:7113"
+    - "redis://10.13.7.11:7114"
+    - "redis://10.13.7.11:7115"
+    - "redis://10.13.7.11:7116"
+    - "redis://10.13.7.12:7113"
+    - "redis://10.13.7.12:7114"
+    - "redis://10.13.7.12:7115"
+    - "redis://10.13.7.12:7116"
+    - "redis://10.3.3.209:7113"
+    - "redis://10.3.3.209:7114"
+    - "redis://10.3.3.209:7115"
+    - "redis://10.3.3.209:7116"
   scanInterval: 1000
 threads: 0
 nettyThreads: 0
