@@ -66,3 +66,4 @@ nbdist/
 /log/
 /.mvn/
 /targert/
+*/.mvn/
