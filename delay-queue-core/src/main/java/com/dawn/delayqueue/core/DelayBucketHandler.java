@@ -21,12 +21,19 @@ public class DelayBucketHandler implements Runnable {
 
     private DelayBucket delayBucket;
 
+    private DelayQueueJobPool delayQueueJobPool;
+
+    private ReadyQueue readyQueue;
+
     private DelayBucketHandler() {
     }
 
-    public DelayBucketHandler(String delayBucketKey, DelayBucket delayBucket) {
+    public DelayBucketHandler(String delayBucketKey, DelayBucket delayBucket, DelayQueueJobPool delayQueueJobPool,
+                              ReadyQueue readyQueue) {
         this.delayBucketKey = delayBucketKey;
         this.delayBucket = delayBucket;
+        this.delayQueueJobPool = delayQueueJobPool;
+        this.readyQueue = readyQueue;
     }
 
     @Override
@@ -45,7 +52,7 @@ public class DelayBucketHandler implements Runnable {
                     continue;
                 }
 
-                DelayQueueJob delayQueueJob = DelayQueueJobPool.getDelayQueueJob(item.getDelayQueueJobId());
+                DelayQueueJob delayQueueJob = delayQueueJobPool.getDelayQueueJob(item.getDelayQueueJobId());
                 //延迟任务元数据不存在
                 if (delayQueueJob == null) {
                     delayBucket.deleteFormBucket(this.delayBucketKey, item);
@@ -59,7 +66,7 @@ public class DelayBucketHandler implements Runnable {
                     //重新计算延迟时间
                     delayBucket.addToBucket(this.delayBucketKey, new ScoredSortedItem(delayQueueJob.getId(), delayQueueJob.getDelayTime()));
                 } else {
-                    ReadyQueue.pushToReadyQueue(delayQueueJob.getTopic(), delayQueueJob.getId());
+                    readyQueue.pushToReadyQueue(delayQueueJob.getTopic(), delayQueueJob.getId());
                     delayBucket.deleteFormBucket(this.delayBucketKey, item);
                 }
 

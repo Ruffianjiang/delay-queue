@@ -2,6 +2,7 @@ package com.dawn.delayqueue.core;
 
 import com.dawn.delayqueue.core.model.DelayQueueJob;
 import com.dawn.delayqueue.core.model.ScoredSortedItem;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +16,12 @@ public class DelayQueue {
 
     private static final Logger logger = LoggerFactory.getLogger(DelayQueue.class);
 
+
+    private DelayBucket delayBucket;
+
+    private DelayQueueJobPool delayQueueJobPool;
+
+    private ReadyQueue readyQueue;
 
     /**
      * 获取delayBucket key 分开多个，有利于提高效率
@@ -30,9 +37,9 @@ public class DelayQueue {
      * @param delayQueueJob
      */
     public void push(DelayQueueJob delayQueueJob) {
-        DelayQueueJobPool.addDelayQueueJob(delayQueueJob);
+        delayQueueJobPool.addDelayQueueJob(delayQueueJob);
         ScoredSortedItem item = new ScoredSortedItem(delayQueueJob.getId(), delayQueueJob.getDelayTime());
-        DelayBucket.addToBucket(getDelayBucketKey(delayQueueJob.getId()),item);
+        delayBucket.addToBucket(getDelayBucketKey(delayQueueJob.getId()),item);
     }
 
     /**
@@ -41,11 +48,11 @@ public class DelayQueue {
      * @return
      */
     public DelayQueueJob pop(String topic) {
-        Long delayQueueJobId = ReadyQueue.pollFormReadyQueue(topic);
+        Long delayQueueJobId = readyQueue.pollFormReadyQueue(topic);
         if (delayQueueJobId == null) {
             return null;
         } else {
-            DelayQueueJob delayQueueJob = DelayQueueJobPool.getDelayQueueJob(delayQueueJobId);
+            DelayQueueJob delayQueueJob = delayQueueJobPool.getDelayQueueJob(delayQueueJobId);
             if (delayQueueJob == null) {
                 return null;
             } else {
@@ -53,9 +60,9 @@ public class DelayQueue {
                 //获取消费超时时间，重新放到延迟任务桶中
                 long reDelayTime = System.currentTimeMillis()+delayQueueJob.getTtrTime()*1000L;
                 delayQueueJob.setDelayTime(reDelayTime);
-                DelayQueueJobPool.addDelayQueueJob(delayQueueJob);
+                delayQueueJobPool.addDelayQueueJob(delayQueueJob);
                 ScoredSortedItem item = new ScoredSortedItem(delayQueueJob.getId(), reDelayTime);
-                DelayBucket.addToBucket(getDelayBucketKey(delayQueueJob.getId()),item);
+                delayBucket.addToBucket(getDelayBucketKey(delayQueueJob.getId()),item);
                 //返回的时候设置回
                 delayQueueJob.setDelayTime(delayTime);
                 return delayQueueJob;
@@ -68,7 +75,7 @@ public class DelayQueue {
      * @param delayQueueJobId
      */
     public void delete(long delayQueueJobId) {
-        DelayQueueJobPool.deleteDelayQueueJob(delayQueueJobId);
+        delayQueueJobPool.deleteDelayQueueJob(delayQueueJobId);
     }
 
     /**
@@ -76,13 +83,13 @@ public class DelayQueue {
      * @param delayQueueJobId
      */
     public void finish(long delayQueueJobId) {
-        DelayQueueJob delayQueueJob = DelayQueueJobPool.getDelayQueueJob(delayQueueJobId);
+        DelayQueueJob delayQueueJob = delayQueueJobPool.getDelayQueueJob(delayQueueJobId);
         if (delayQueueJob == null) {
             return;
         }
-        DelayQueueJobPool.deleteDelayQueueJob(delayQueueJobId);
+        delayQueueJobPool.deleteDelayQueueJob(delayQueueJobId);
         ScoredSortedItem item = new ScoredSortedItem(delayQueueJob.getId(), delayQueueJob.getDelayTime());
-        DelayBucket.deleteFormBucket(getDelayBucketKey(delayQueueJob.getId()),item);
+        delayBucket.deleteFormBucket(getDelayBucketKey(delayQueueJob.getId()),item);
     }
 
     /**
@@ -91,6 +98,6 @@ public class DelayQueue {
      * @return
      */
     public DelayQueueJob get(long delayQueueJobId) {
-        return DelayQueueJobPool.getDelayQueueJob(delayQueueJobId);
+        return delayQueueJobPool.getDelayQueueJob(delayQueueJobId);
     }
 }
