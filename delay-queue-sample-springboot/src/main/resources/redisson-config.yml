@@ -1,7 +1,7 @@
 # 单机配置
 singleServerConfig:
-  address: "redis://192.168.254.141:6379"
-  password: null
+  address: "redis://localhost:6379"
+  password: 123456
   clientName: null
   database: 7 #选择使用哪个数据库0~15
   idleConnectionTimeout: 10000

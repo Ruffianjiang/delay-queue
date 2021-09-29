@@ -5,6 +5,7 @@ import com.dawn.delayqueue.core.model.ScoredSortedItem;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
@@ -16,11 +17,13 @@ public class DelayQueue {
 
     private static final Logger logger = LoggerFactory.getLogger(DelayQueue.class);
 
-
+    @Autowired
     private DelayBucket delayBucket;
 
+    @Autowired
     private DelayQueueJobPool delayQueueJobPool;
 
+    @Autowired
     private ReadyQueue readyQueue;
 
     /**

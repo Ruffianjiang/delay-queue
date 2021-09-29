@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 18080
 spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -7,3 +7,7 @@ spring:
   devtools:
     livereload:
       port: 34521
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456

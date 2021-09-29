@@ -68,6 +68,8 @@ public class DelayBucketHandler implements Runnable {
                 } else {
                     readyQueue.pushToReadyQueue(delayQueueJob.getTopic(), delayQueueJob.getId());
                     delayBucket.deleteFormBucket(this.delayBucketKey, item);
+
+                    logger.info("=================DelayBucketLoader[{}] 时间到，消息推送推送topic成功=======================", delayQueueJob.getTopic());
                 }
 
             } catch (Exception e) {
@@ -82,7 +84,7 @@ public class DelayBucketHandler implements Runnable {
         try {
             TimeUnit.SECONDS.sleep(1L);
         } catch (InterruptedException e) {
-            logger.error("", e);
+            logger.error("消费间隔出错", e);
         }
     }
 }
