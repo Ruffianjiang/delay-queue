@@ -2,7 +2,6 @@ package com.dawn.delayqueue.core;
 
 import com.dawn.delayqueue.core.model.DelayQueueJob;
 import com.dawn.delayqueue.core.model.ScoredSortedItem;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 延迟消息队列
+ *
  * @author Yang WenJie
  * @date 2018/1/27 上午11:28
  */
@@ -28,6 +28,7 @@ public class DelayQueue {
 
     /**
      * 获取delayBucket key 分开多个，有利于提高效率
+     *
      * @param delayQueueJobId
      * @return
      */
@@ -37,16 +38,18 @@ public class DelayQueue {
 
     /**
      * 添加延迟任务到延迟队列
+     *
      * @param delayQueueJob
      */
     public void push(DelayQueueJob delayQueueJob) {
         delayQueueJobPool.addDelayQueueJob(delayQueueJob);
         ScoredSortedItem item = new ScoredSortedItem(delayQueueJob.getId(), delayQueueJob.getDelayTime());
-        delayBucket.addToBucket(getDelayBucketKey(delayQueueJob.getId()),item);
+        delayBucket.addToBucket(getDelayBucketKey(delayQueueJob.getId()), item);
     }
 
     /**
      * 获取准备好的延迟任务
+     *
      * @param topic
      * @return
      */
@@ -61,11 +64,11 @@ public class DelayQueue {
             } else {
                 long delayTime = delayQueueJob.getDelayTime();
                 //获取消费超时时间，重新放到延迟任务桶中
-                long reDelayTime = System.currentTimeMillis()+delayQueueJob.getTtrTime()*1000L;
+                long reDelayTime = System.currentTimeMillis() + delayQueueJob.getTtrTime() * 1000L;
                 delayQueueJob.setDelayTime(reDelayTime);
                 delayQueueJobPool.addDelayQueueJob(delayQueueJob);
                 ScoredSortedItem item = new ScoredSortedItem(delayQueueJob.getId(), reDelayTime);
-                delayBucket.addToBucket(getDelayBucketKey(delayQueueJob.getId()),item);
+                delayBucket.addToBucket(getDelayBucketKey(delayQueueJob.getId()), item);
                 //返回的时候设置回
                 delayQueueJob.setDelayTime(delayTime);
                 return delayQueueJob;
@@ -75,6 +78,7 @@ public class DelayQueue {
 
     /**
      * 删除延迟队列任务
+     *
      * @param delayQueueJobId
      */
     public void delete(long delayQueueJobId) {
@@ -82,7 +86,6 @@ public class DelayQueue {
     }
 
     /**
-     *
      * @param delayQueueJobId
      */
     public void finish(long delayQueueJobId) {
@@ -92,11 +95,12 @@ public class DelayQueue {
         }
         delayQueueJobPool.deleteDelayQueueJob(delayQueueJobId);
         ScoredSortedItem item = new ScoredSortedItem(delayQueueJob.getId(), delayQueueJob.getDelayTime());
-        delayBucket.deleteFormBucket(getDelayBucketKey(delayQueueJob.getId()),item);
+        delayBucket.deleteFormBucket(getDelayBucketKey(delayQueueJob.getId()), item);
     }
 
     /**
      * 查询delay job
+     *
      * @param delayQueueJobId
      * @return
      */

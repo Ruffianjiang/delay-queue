@@ -2,8 +2,33 @@
 redis实现延迟消息队列 Spring boot
 
 ## 修改说明
-基于 spring boot 的重制版，对生产者、消费者进行了修改，实现定时的推送功能
-base on [delay-queue](https://github.com/yangwenjie88/delay-queue)
+基于 spring boot 的重制版，对生产者、消费者进行了修改，实现定时的推送功能  
+**base on [delay-queue](https://github.com/yangwenjie88/delay-queue)**
+
+
+#### 1、swagger地址：
+
+[http://localhost:18080/swagger-ui.html#/delay-queue-controller](http://localhost:18080/swagger-ui.html#/delay-queue-controller)
+
+#### 2、启用注解
+@EnableDelayQueue  
+
+>~~TODO~~ 可实现 starter
+
+
+#### 3、实现redissonClient的注入
+示例：`RedissonConfig #RedissonClient`
+
+#### 4、项目启动加入生产者和消费者
+DelayBucketLoader  
+DelayCustomerLoader  
+
+#### 5、其他说明  
+1.仅供学习参考  
+2.小项目轻量级可以进行过渡，需加入DB记录 ~~TODO~~  
+3.生产建议使用MQ的延迟队列，或者使用分布式job平台进行调度  
+
+=======================以下为原项目引用=======================
 
 ## todo or defect
 1、分布式消费（未验证）  
@@ -26,7 +51,7 @@ base on [delay-queue](https://github.com/yangwenjie88/delay-queue)
 
 经过一番搜索，网上说rabbitmq可以满足延迟执行需求，但是目前系统用了其他消息中间件，所以不打算用。
 
-基于Redis实现的延迟消息队列java版：[delay-queue](https://github.com/Ruffianjiang/delay-queue)
+基于Redis实现的延迟消息队列java版：[delay-queue](https://github.com/yangwenjie88/delay-queue)
 
 ## 整体结构
 整个延迟队列由4个部分组成：

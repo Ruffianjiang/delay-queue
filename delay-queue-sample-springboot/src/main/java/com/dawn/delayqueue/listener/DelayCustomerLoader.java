@@ -1,6 +1,5 @@
 package com.dawn.delayqueue.listener;
 
-import com.dawn.delayqueue.core.DelayBucketHandler;
 import com.dawn.delayqueue.core.DelayQueue;
 import com.dawn.delayqueue.core.DelayQueueConstant;
 import com.dawn.delayqueue.core.DelayQueueHandler;
@@ -13,7 +12,7 @@ import javax.annotation.PostConstruct;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
+/** 根据topic消费(消费者)
  * @author jiangyj
  * @version 1.0
  * @create 2021-09-29 19:01

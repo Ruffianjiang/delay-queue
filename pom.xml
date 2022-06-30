@@ -18,7 +18,7 @@
 
     <groupId>com.dawn</groupId>
     <artifactId>delay-queue</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>delay-queue</name>
     <description>delay-queue demo project</description>
 
@@ -28,5 +28,16 @@
         <java.version>1.8</java.version>
     </properties>
 
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>3.17.4</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

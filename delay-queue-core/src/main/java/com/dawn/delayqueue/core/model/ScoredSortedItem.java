@@ -1,11 +1,14 @@
 package com.dawn.delayqueue.core.model;
 
+import java.io.Serializable;
+
 /**
  * @author Yang WenJie
  * @date 2018/1/27 上午1:23
  */
-public class ScoredSortedItem {
+public class ScoredSortedItem implements Serializable {
 
+    private static final long serialVersionUID = 7534486240102254832L;
     /**
      * 任务的执行时间
      */

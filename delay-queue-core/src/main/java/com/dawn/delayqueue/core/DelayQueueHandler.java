@@ -1,7 +1,6 @@
 package com.dawn.delayqueue.core;
 
 import com.dawn.delayqueue.core.model.DelayQueueJob;
-import com.dawn.delayqueue.core.model.ScoredSortedItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

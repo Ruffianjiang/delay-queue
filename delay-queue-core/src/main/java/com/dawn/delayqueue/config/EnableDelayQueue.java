@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  * @create 2021-09-29 18:26
  **/
 @Retention(value = java.lang.annotation.RetentionPolicy.RUNTIME)
-@Target(value = { java.lang.annotation.ElementType.TYPE })
+@Target(value = {java.lang.annotation.ElementType.TYPE})
 @Import({DelayBucket.class, DelayQueue.class, DelayQueueJobPool.class, ReadyQueue.class})
 @Documented
 public @interface EnableDelayQueue {

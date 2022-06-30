@@ -1,7 +1,6 @@
 package com.dawn.delayqueue.listener;
 
 import com.dawn.delayqueue.core.*;
-import com.dawn.delayqueue.exception.GlobalExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * 启动后台定时
+ * 启动后台定时 (生产者)
  * @author Ruffianjiang
  * @version V1.0
  * @Title: DelayBucketLoader

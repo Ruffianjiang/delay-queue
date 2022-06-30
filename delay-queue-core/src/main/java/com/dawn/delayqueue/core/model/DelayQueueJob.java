@@ -12,6 +12,7 @@ import java.io.Serializable;
  */
 public class DelayQueueJob implements Serializable {
 
+    private static final long serialVersionUID = -4011638005718462475L;
     /**
      * 延迟任务的唯一标识，用于检索任务
      */
