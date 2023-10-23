@@ -8,7 +8,6 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Create By IntelliJ IDEA
@@ -17,7 +16,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @date 2018/1/4 15:04
  */
 @Configuration
-@EnableSwagger2
 public class Swagger2Config {
 
     @Bean
