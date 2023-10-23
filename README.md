@@ -1,5 +1,21 @@
 # delay-queue
+
+**推荐使用MQ的延迟队列功能，相对稳定，实现简单**
+
+
 redis实现延迟消息队列 Spring boot
+
+1. [delay-queue-core](delay-queue-core)
+2. [delay-queue-sample-springboot](delay-queue-sample-springboot)
+
+1和2为 java 实现，客户端定时扫面
+
+3. [delay-queue-redisson](delay-queue-redisson)  
+
+3为 redisson 的 RBlockingQueue 实现，阻塞获取
+
+
+
 
 ## 修改说明
 基于 spring boot 的重制版，对生产者、消费者进行了修改，实现定时的推送功能  
